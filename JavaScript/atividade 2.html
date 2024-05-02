@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript</title>
+    <script>
+        var nome = prompt('Qual o nome do funcionário?')
+        var salario = prompt('Qual o salário do funcionário?')
+
+
+        salario = parseFloat(salario)
+
+        document.write('<h1>O funcionário(a) ' + nome + ' tem um salário de ' + salario + ' em agosto.</h1>')
+    </script>
+</head>
+<body>
+
+    <input id="campo" type="text" onfocus="acionaCampo()" onblur="validaCampo()"> 
+   
+</body>
+</html>

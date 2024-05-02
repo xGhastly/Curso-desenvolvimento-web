@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript</title>
+    <script>
+
+        //Variaveis do primeiro número, da operação que o usuário deseja realizar
+        //(soma ou subtração) e do segundo número afetado pela operação.
+        var nmr1 = prompt('Digite um Número')
+        var operacao = prompt('Digite a operação desejada (Soma ou Subtração)')
+        var nmr2 = prompt('Digite outro Número')
+        
+        //Transformando o número obtido de string para Float,
+        //permitindo somas e subtrações de números decimais.
+        nmr1 = parseFloat(nmr1)
+        nmr2 = parseFloat(nmr2)
+
+        //Função para a realização dos calculos dependendo da escolha
+        //do usuário.
+        function calc(nmr1 , nmr2 , operacao) {
+
+            if (operacao == "Soma") {
+            resultado = nmr1 + nmr2
+            }
+
+            if (operacao == "Subtração") {
+            resultado = nmr1 - nmr2
+            }
+
+            return resultado
+        }      
+
+        //Repassando o resultado para o usuário.
+        document.write('O resultado é: ' + calc(nmr1 , nmr2 , operacao))
+
+    </script>
+</head>
+<body>
+   
+</body>
+</html>

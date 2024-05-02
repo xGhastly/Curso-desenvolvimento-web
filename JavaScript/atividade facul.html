@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrupamento de Idades</title>
+</head>
+
+<body>
+    <h1>Agrupamento de Idades</h1>
+    <script>
+        function agruparIdades() {
+            let idades = [];
+            let menores = [];
+            let adultos = [];
+            let idosos = [];
+            let totalMenores = 0;
+            let totalAdultos = 0;
+            let totalIdosos = 0;
+            let mediaMenores = 0;
+            let mediaAdultos = 0;
+            let mediaIdosos = 0;
+            let mediaGeral = 0;
+
+            // Leitura das idades
+            for (let i = 0; i < 60; i++) {
+                let idade = parseInt(prompt("Informe a idade " + (i + 1) + ":"));
+                idades.push(idade);
+
+                // Agrupamento por faixa etária
+                if (idade < 18) {
+                    menores.push(idade);
+                    totalMenores++;
+                } else if (idade < 60) {
+                    adultos.push(idade);
+                    totalAdultos++;
+                } else {
+                    idosos.push(idade);
+                    totalIdosos++;
+                }
+            }
+
+            // Imprimir idades por faixa etária
+            console.log("Menores: " + menores.join(", "));
+            console.log("Adultos: " + adultos.join(", "));
+            console.log("Idosos: " + idosos.join(", "));
+
+            // Imprimir quantidade de pessoas por faixa etária
+            console.log("Quantidade de menores: " + totalMenores);
+            console.log("Quantidade de adultos: " + totalAdultos);
+            console.log("Quantidade de idosos: " + totalIdosos);
+
+            // Calcular média de idade por faixa etária
+            if (totalMenores > 0) {
+                mediaMenores = calcularMedia(menores, totalMenores);
+                console.log("Média de idade dos menores: " + mediaMenores);
+            }
+            if (totalAdultos > 0) {
+                mediaAdultos = calcularMedia(adultos, totalAdultos);
+                console.log("Média de idade dos adultos: " + mediaAdultos);
+            }
+            if (totalIdosos > 0) {
+                mediaIdosos = calcularMedia(idosos, totalIdosos);
+                console.log("Média de idade dos idosos: " + mediaIdosos);
+            }
+
+            // Calcular média geral de idade
+            let totalIdades = totalMenores + totalAdultos + totalIdosos;
+            mediaGeral = (calcularSomaElementos(menores) + calcularSomaElementos(adultos) + calcularSomaElementos(idosos)) / totalIdades;
+            console.log("Média geral de idade: " + mediaGeral);
+        }
+
+        function calcularSomaElementos(vetor) {
+            let soma = 0;
+            for (let i = 0; i < vetor.length; i++) {
+                soma += vetor[i];
+            }
+            return soma;
+        }
+
+        function calcularMedia(vetor, total) {
+            return calcularSomaElementos(vetor) / total;
+        }
+
+        // Chamar a função principal
+        agruparIdades();
+    </script>
+</body>
+
+</html>
