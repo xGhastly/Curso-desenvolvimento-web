@@ -70,46 +70,37 @@ class Bd {
 
 		let despesasFiltradas = Array()
 		despesasFiltradas = this.recuperarTodosRegistros()
-		console.log(despesasFiltradas);
-		console.log(despesa)
 
 		//ano
 		if(despesa.ano != ''){
-			console.log("filtro de ano");
 			despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
 		}
 			
 		//mes
 		if(despesa.mes != ''){
-			console.log("filtro de mes");
 			despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
 		}
 
 		//dia
 		if(despesa.dia != ''){
-			console.log("filtro de dia");
 			despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
 		}
 
 		//tipo
 		if(despesa.tipo != ''){
-			console.log("filtro de tipo");
 			despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
 		}
 
 		//descricao
 		if(despesa.descricao != ''){
-			console.log("filtro de descricao");
 			despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
 		}
 
 		//valor
 		if(despesa.valor != ''){
-			console.log("filtro de valor");
 			despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor)
 		}
 
-		
 		return despesasFiltradas
 
 	}
@@ -153,7 +144,7 @@ function cadastrarDespesa() {
 		//dialog de sucesso
 		$('#modalRegistraDespesa').modal('show') 
 
-		ano.value = '' 
+        ano.value = '' 
 		mes.value = ''
 		dia.value = ''
 		tipo.value = ''
@@ -179,17 +170,6 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 		despesas = bd.recuperarTodosRegistros() 
 	}
 	
-
-	/*
-
-	<tr>
-		<td>15/03/2018</td>
-		<td>Alimentação</td>
-		<td>Compras do mês</td>
-		<td>444.75</td>
-	</tr>
-
-	*/
 
 	let listaDespesas = document.getElementById("listaDespesas")
     listaDespesas.innerHTML = ''
@@ -226,12 +206,25 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 		btn.id = `id_despesa_${d.id}`
 		btn.onclick = function(){
 			let id = this.id.replace('id_despesa_','')
-			//alert(id)
-			bd.remover(id)
-			window.location.reload()
+
+            document.getElementById('modal_titulo_excluir').innerHTML = 'O registro será excluido!'
+		    document.getElementById('modal_titulo_div_excluir').className = 'modal-header text-danger'
+		    document.getElementById('modal_conteudo_excluir').innerHTML = 'Deseja mesmo exlcuir esse registro?'
+		    document.getElementById('modal_btn_voltar').innerHTML = 'Sim'
+		    document.getElementById('modal_btn_voltar').className = 'btn btn-success'
+            document.getElementById('modal_btn_desfazer').innerHTML = 'Não'
+		    document.getElementById('modal_btn_desfazer').className = 'btn btn-danger'
+
+            $('#modalExcluirDespesa').modal('show')
+
+            modal_btn_voltar.onclick = function(){
+                bd.remover(id)
+                window.location.reload()
+            }
+                      
 		}
+        
 		linha.insertCell(4).append(btn)
-		console.log(d)
 	})
 
  }
@@ -251,5 +244,56 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 	let despesas = bd.pesquisar(despesa)
 	 
 	this.carregaListaDespesas(despesas, true)
-
+	calcularTotalPorCategoria(); // Chama a função para calcular os totais por categoria após pesquisar
  }
+
+function calcularTotalPorCategoria() {
+  let despesas = bd.recuperarTodosRegistros();
+  let totais = {};
+
+  despesas.forEach(function(d) {
+    if (!totais[d.tipo]) {
+      totais[d.tipo] = 0;
+      
+    }
+    totais[d.tipo] += parseFloat(d.valor);
+  });
+
+  
+
+
+  console.log(tipo)
+
+  let indiceTotais = document.getElementById("indiceTotais");
+  indiceTotais.innerHTML = '';
+
+  for (let tipo in totais) {
+    let nomeTipo = '';
+    switch(tipo) {
+        case '1':
+          nomeTipo = 'Alimentação';
+          break;
+        case '2':
+          nomeTipo = 'Educação';
+          break;
+        case '3':
+          nomeTipo = 'Lazer';
+          break;
+        case '4':
+          nomeTipo = 'Saúde';
+          break;
+        case '5':
+          nomeTipo = 'Transporte';
+          break;
+        default:
+          nomeTipo = 'Desconhecido';
+      }
+    let itemLista = document.createElement("li");
+    itemLista.classList.add("list-group-item");
+    itemLista.innerHTML = `<strong>${nomeTipo}</strong>: R$ ${totais[tipo].toFixed(2)}`;
+    indiceTotais.appendChild(itemLista);
+
+    console.log(tipo)
+    console.log(totais)
+  }
+}
