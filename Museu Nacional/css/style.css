@@ -22,7 +22,7 @@ a:hover {
 /* Logo */
 
 #logo h1 {
-    float: left;
+    margin-bottom: 20px;
 }
 
 #logo a {
